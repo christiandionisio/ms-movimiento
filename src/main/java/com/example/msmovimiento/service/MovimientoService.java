@@ -12,4 +12,7 @@ public interface MovimientoService {
     Movimiento update(Movimiento movimiento);
     void delete(Long id);
 
+    List<Movimiento> findByIdClienteAndFechaBetween(Long idCliente, String startDate,
+                                                       String endDate);
+
 }

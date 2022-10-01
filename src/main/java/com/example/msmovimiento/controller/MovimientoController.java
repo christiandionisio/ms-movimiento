@@ -51,4 +51,11 @@ public class MovimientoController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/reporte")
+    public ResponseEntity<List<Movimiento>> generarReporte(@RequestParam Long clienteId,
+                                                           @RequestParam String startDate,
+                                                           @RequestParam String endDate) {
+        return ResponseEntity.ok().body(service.findByIdClienteAndFechaBetween(clienteId, startDate, endDate));
+    }
+
 }

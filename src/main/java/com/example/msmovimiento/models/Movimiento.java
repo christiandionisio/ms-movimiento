@@ -24,5 +24,6 @@ public class Movimiento {
     private Boolean estado;
     private BigDecimal saldoInicial;
     private BigDecimal saldoDisponible;
+    private Long idCliente;
 
 }
