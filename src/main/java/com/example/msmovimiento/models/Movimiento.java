@@ -19,6 +19,10 @@ public class Movimiento {
     private LocalDateTime fecha;
     private String tipoMovimiento;
     private BigDecimal valor;
-    private BigDecimal saldo;
+    private String numeroCuenta;
+    private String cliente;
+    private Boolean estado;
+    private BigDecimal saldoInicial;
+    private BigDecimal saldoDisponible;
 
 }

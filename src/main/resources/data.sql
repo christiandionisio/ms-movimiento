@@ -1,2 +1,2 @@
-INSERT INTO MOVIMIENTO (id, fecha, tipo_movimiento, valor, saldo) VALUES (101, {ts '2022-10-01'}, 'AHORRO', 100, 700);
-INSERT INTO MOVIMIENTO (id, fecha, tipo_movimiento, valor, saldo) VALUES (102, {ts '2022-10-01'}, 'CORRIENTE', -200, 0);
+INSERT INTO MOVIMIENTO (id, fecha, tipo_movimiento, valor, saldo_disponible) VALUES (101, {ts '2022-10-01'}, 'AHORRO', 100, 700);
+INSERT INTO MOVIMIENTO (id, fecha, tipo_movimiento, valor, saldo_disponible) VALUES (102, {ts '2022-10-01'}, 'CORRIENTE', -200, 0);
