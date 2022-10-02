@@ -1,9 +1,11 @@
 package com.example.msmovimiento.service;
 
 import com.example.msmovimiento.dto.CuentaDto;
+import com.example.msmovimiento.exception.SaldoNoDisponibleException;
 import com.example.msmovimiento.models.Movimiento;
 import com.example.msmovimiento.repo.MovimientoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class MovimientoServiceImpl implements MovimientoService {
     MovimientoRepository repository;
 
     RestTemplate restTemplate = new RestTemplate();
-    String resourceUrl = "http://localhost:8081/cuentas";
+    @Value("${resource-cliente-url}")
+    String resourceUrl;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -40,19 +42,19 @@ public class MovimientoServiceImpl implements MovimientoService {
     }
 
     @Override
-    public Movimiento create(Movimiento movimiento) {
+    public Movimiento create(Movimiento movimiento) throws SaldoNoDisponibleException {
         ResponseEntity<CuentaDto> response = restTemplate.getForEntity(resourceUrl + "/numeroCuenta/{nroCuenta}",
                 CuentaDto.class, movimiento.getNumeroCuenta());
 
         CuentaDto cuentaResponse = response.getBody();
 
         if (cuentaResponse.getSaldoInicial().compareTo(BigDecimal.ZERO) == 0) {
-            System.out.println("SALDO NO DISPONIBLE EXCEPTION");
+            throw new SaldoNoDisponibleException();
         }
 
         if (movimiento.getValor().compareTo(BigDecimal.ZERO) < 0 &&
                 cuentaResponse.getSaldoInicial().compareTo(movimiento.getValor().abs()) < 0) {
-            System.out.println("SALDO NO DISPONIBLE EXCEPTION");
+            throw new SaldoNoDisponibleException();
         }
 
 
